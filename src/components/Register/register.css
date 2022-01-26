@@ -1,0 +1,54 @@
+.register {
+  background-image: #181818;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.register .container {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid white;
+  border-radius: 40px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 15px 68px 40px;
+  border-radius: 10px;
+  box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+}
+
+input {
+  padding: 5px;
+  margin: 10px;
+}
+
+.label_input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.error_field {
+  font-size: 0.6rem;
+  color: red;
+}
+
+.container a {
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.register_container_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.button_send {
+  background-color: rgb(72, 47, 222);
+  color: white;
+  padding: 10px;
+  border: 0;
+  font-weight: bold;
+}
