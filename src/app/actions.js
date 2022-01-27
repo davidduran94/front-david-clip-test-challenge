@@ -1,6 +1,6 @@
 import React from "react";
 
-export const delClient = (payload) => ({
+export const deleteClient = (payload) => ({
   type: "DELETE_CLIENT",
   payload: payload,
 });

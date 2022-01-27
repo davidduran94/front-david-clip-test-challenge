@@ -1,9 +1,10 @@
 import config from "../app/config";
 
-export default function getClients(callback) {
-  return fetch(`${config.API_URL}/customers`, {
-    method: "GET",
+export default function deleteClient(id, callback) {
+  return fetch(`${config.API_URL}/customers/${id}`, {
+    method: "DELETE",
     headers: {
+      // Authorization: `Token ${config._KEY}`,
       "Content-Type": "application/json",
     },
   })

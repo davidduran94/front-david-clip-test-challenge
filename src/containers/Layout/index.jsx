@@ -1,27 +1,33 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Register from "../../components/Register";
 import Header from "../Header";
 import ClientsList from "../../components/ClientsList";
-import Client from "../../components/Client";
-import getClients from "../../services/getClients";
+import postClient from "../../services/postClient";
+import { newClient } from "../../app/actions";
 
+/**
+ *
+ * @param {*} props
+ * @returns
+ */
 const Layout = (props) => {
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [clientsList, setClientsList] = useState([]);
+  const dispatcher = useDispatch();
+  const [loading, setIsloading] = useState(false);
 
-  const handleClientsRequest = async (quoation) => {
-    setLoading(true);
-    console.log("consutlando API...");
-    getClients({}, (res) => {
-      setError(false);
-      setLoading(false);
-      if (!res.error) {
-        // console.log(res);
-        setClientsList(res);
+  /**
+   * Generates a request to customer service and dispatchs the client to state
+   * Parameters email and name are required, phone is optional
+   *  */
+  const handleNewClientRequest = async ({ email, name, phone }) => {
+    setIsloading(true);
+    postClient({ email, name, phone }, (res) => {
+      if (res.error) {
+        setIsloading(false);
+        alert("No se pudo generar el cliente, intente más tarde");
       } else {
-        // setError(res);
-        console.log(res);
+        setIsloading(false);
+        dispatcher(newClient({ ...res }));
       }
     });
   };
@@ -29,14 +35,8 @@ const Layout = (props) => {
   return (
     <>
       <Header />
-      <Register onSubmitData={handleClientsRequest} />
-      {isLoading ? (
-        <p>Obteniendo...</p>
-      ) : error ? (
-        <p>Error al obtener clientes, intente nuevamente</p>
-      ) : (
-        <ClientsList></ClientsList>
-      )}
+      <Register loading={loading} onSubmitData={handleNewClientRequest} />
+      <ClientsList />
     </>
   );
 };

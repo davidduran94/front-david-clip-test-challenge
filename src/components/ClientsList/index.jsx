@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,19 +11,36 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-const rows = [
-  {
-    name: "david",
-    email: "davidddr@gmail.com",
-    phone: "34523423",
-    creation_date: "12/2/2021",
-    clabe: "42352345234523",
-  },
-];
+import getClients from "../../services/getClients";
+import deleteClient from "../../services/deleteClient";
+import { getClients as getClientsAction } from "../../app/actions";
+import { deleteClient as deleteClientAction } from "../../app/actions";
 
 const ClientsList = () => {
-  return (
+  const dispatcher = useDispatch();
+  const rows = useSelector((state) => state.clients);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getClients((res) => {
+      let itemsRes = res.map((item) => {
+        return { ...item, key: item.id };
+      });
+
+      dispatcher(getClientsAction(itemsRes));
+      setIsLoading(false);
+    });
+  }, []);
+
+  const handleDeleteClient = (id) => {
+    deleteClient(id, (res) => {
+      dispatcher(deleteClientAction(id));
+    });
+  };
+
+  return !isLoading ? (
     <TableContainer component={Paper}>
+      <p>Lista de Clientes {rows.length}</p>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -44,7 +63,7 @@ const ClientsList = () => {
               </TableCell>
 
               <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">{row.phone}</TableCell>
+              <TableCell align="right">{row.phone_number}</TableCell>
               <TableCell align="right">{row.creation_date}</TableCell>
               <TableCell align="right">{row.clabe}</TableCell>
               <TableCell align="right">
@@ -52,7 +71,11 @@ const ClientsList = () => {
                   <Button variant="contained" color="success">
                     Editar
                   </Button>
-                  <Button variant="outlined" color="error">
+                  <Button
+                    onClick={() => handleDeleteClient(row.id)}
+                    variant="outlined"
+                    color="error"
+                  >
                     Borrar
                   </Button>
                 </Stack>
@@ -62,6 +85,8 @@ const ClientsList = () => {
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <p>Obteniendo clientes...</p>
   );
 };
 

@@ -11,9 +11,7 @@ const Register = ({ onSubmitData }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    //b evt.preventDefault();
     if (!errors.length) {
-      console.log("envio::::::", data);
       onSubmitData(data);
     }
   };
@@ -30,7 +28,7 @@ const Register = ({ onSubmitData }) => {
             <label className="label_input">
               {errors.name?.type === "required" && (
                 <strong className="error_field">
-                  Por favor ingresa un codigo postal válido
+                  Por favor ingresa un nombre
                 </strong>
               )}
               <input
