@@ -1,5 +1,5 @@
 const config = {
-  API_URL: "http://localhost:3000/api/v1",
+  API_URL: "https://floating-fortress-51971.herokuapp.com/api/v1",
 };
 
 export default config;
