@@ -1,7 +1,7 @@
 import config from "../app/config";
 
-export default function updateClient({ name, email, phone }, callback) {
-  return fetch(`${config.API_URL}/customers`, {
+export default function updateClient({ id, name, email, phone }, callback) {
+  return fetch(`${config.API_URL}/customers/${id}`, {
     method: "PATCH",
     headers: {
       // Authorization: `Token ${config._KEY}`,

@@ -2,17 +2,43 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import "./register.css";
+import updateClient from "../../services/updateClient";
+import deleteClient from "../../services/deleteClient";
+import {
+  newClient,
+  deleteClient as deleteClientAction,
+} from "../../app/actions";
 
 const Register = ({ onSubmitData }) => {
+  const dispatcher = useDispatch();
+  const modeEdit = useSelector((state) => state.modeEdit);
+  const userEdit = useSelector((state) => state.clientEdit);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
+  const handleEditRequest = (data) => {
+    console.log("updating...", data);
+    updateClient(data, (res) => {
+      console.log("reSSSS:", res);
+      if (res.error) {
+        alert(res.message);
+        return;
+      }
+
+      dispatcher(deleteClientAction(data.id));
+      dispatcher(newClient(res));
+    });
+  };
+
   const onSubmit = (data) => {
     if (!errors.length) {
-      onSubmitData(data);
+      modeEdit
+        ? handleEditRequest({ ...userEdit, ...data })
+        : onSubmitData(data);
     }
   };
 
@@ -20,7 +46,11 @@ const Register = ({ onSubmitData }) => {
     <>
       <section className="register">
         <section className="container">
-          <h2>Registrar Nuevo Cliente</h2>
+          {modeEdit ? (
+            <h2>Editar Cliente</h2>
+          ) : (
+            <h2>Registrar Nuevo Cliente</h2>
+          )}
           <form
             className="register_container_form"
             onSubmit={handleSubmit(onSubmit)}
@@ -32,6 +62,7 @@ const Register = ({ onSubmitData }) => {
                 </strong>
               )}
               <input
+                defaultValue={modeEdit ? userEdit?.name : ""}
                 name="name"
                 className="input"
                 type="text"
@@ -49,6 +80,7 @@ const Register = ({ onSubmitData }) => {
                 </strong>
               )}
               <input
+                defaultValue={modeEdit ? userEdit?.email : ""}
                 name="email"
                 className="input"
                 type="email"
@@ -67,6 +99,7 @@ const Register = ({ onSubmitData }) => {
                 </strong>
               )}
               <input
+                defaultValue={modeEdit ? userEdit?.phone_number : ""}
                 name="phone"
                 className="input"
                 type="phone"
@@ -121,10 +154,15 @@ const Register = ({ onSubmitData }) => {
                 })}
               />
             </div>
-
-            <button type="submit" className="button_send">
-              Generar Cliente
-            </button>
+            {modeEdit ? (
+              <button type="submit" className="button_send">
+                Actualizar Cliente
+              </button>
+            ) : (
+              <button type="submit" className="button_send">
+                Generar Cliente
+              </button>
+            )}
           </form>
         </section>
       </section>

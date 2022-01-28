@@ -8,6 +8,8 @@ import reducer from "./app/reducers";
 
 const initialState = {
   clients: [],
+  modeEdit: false,
+  clientEdit: {},
 };
 
 const store = createStore(reducer, initialState);

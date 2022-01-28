@@ -1,9 +1,9 @@
 const reducer = (state, action) => {
   switch (action.type) {
-    case "GET_CLIENT":
+    case "EDIT_CLIENT":
       return {
         ...state,
-        clients: [...state.clients, action.payload],
+        clientEdit: action.payload,
       };
 
     case "GET_CLIENTS":
@@ -21,7 +21,13 @@ const reducer = (state, action) => {
     case "NEW_CLIENT":
       return {
         ...state,
-        clients: [action.payload, ...state.clients],
+        clients: [...state.clients, action.payload],
+      };
+
+    case "TOGGLE_MODE":
+      return {
+        ...state,
+        modeEdit: action.payload,
       };
 
     default:

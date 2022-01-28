@@ -15,7 +15,12 @@ export const getClients = (payload) => ({
   payload: payload,
 });
 
-export const getClient = (payload) => ({
-  type: "GET_CLIENT",
+export const editClient = (payload) => ({
+  type: "EDIT_CLIENT",
+  payload: payload,
+});
+
+export const toggleMode = (payload) => ({
+  type: "TOGGLE_MODE",
   payload: payload,
 });

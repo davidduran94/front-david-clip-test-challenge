@@ -15,6 +15,8 @@ import getClients from "../../services/getClients";
 import deleteClient from "../../services/deleteClient";
 import { getClients as getClientsAction } from "../../app/actions";
 import { deleteClient as deleteClientAction } from "../../app/actions";
+import { editClient as editClientAction } from "../../app/actions";
+import { toggleMode as toggleModeAction } from "../../app/actions";
 
 const ClientsList = () => {
   const dispatcher = useDispatch();
@@ -33,9 +35,16 @@ const ClientsList = () => {
   }, []);
 
   const handleDeleteClient = (id) => {
+    dispatcher(toggleModeAction(false));
+    dispatcher(editClientAction({}));
     deleteClient(id, (res) => {
       dispatcher(deleteClientAction(id));
     });
+  };
+
+  const handleEditClient = (client) => {
+    dispatcher(toggleModeAction(true));
+    dispatcher(editClientAction(client));
   };
 
   return !isLoading ? (
@@ -44,11 +53,11 @@ const ClientsList = () => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Nombre</TableCell>
+            <TableCell>ID</TableCell>
+            <TableCell align="right">Nombre</TableCell>
             <TableCell align="right">Email</TableCell>
             <TableCell align="right">Phone Number&nbsp;</TableCell>
             <TableCell align="right">Creation Date&nbsp;</TableCell>
-            <TableCell align="right">CLABE</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
@@ -59,16 +68,15 @@ const ClientsList = () => {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.id}
               </TableCell>
-
+              <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">{row.phone_number}</TableCell>
               <TableCell align="right">{row.creation_date}</TableCell>
-              <TableCell align="right">{row.clabe}</TableCell>
               <TableCell align="right">
                 <Stack direction="row" spacing={2}>
-                  <Button variant="contained" color="success">
+                  <Button onClick={() => handleEditClient(row)} color="success">
                     Editar
                   </Button>
                   <Button
@@ -77,6 +85,13 @@ const ClientsList = () => {
                     color="error"
                   >
                     Borrar
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    variant="contained"
+                    color="success"
+                  >
+                    Cargar
                   </Button>
                 </Stack>
               </TableCell>
