@@ -24,3 +24,8 @@ export const toggleMode = (payload) => ({
   type: "TOGGLE_MODE",
   payload: payload,
 });
+
+export const changeAlert = (payload) => ({
+  type: "CHANGE_ALERT",
+  payload: payload,
+});

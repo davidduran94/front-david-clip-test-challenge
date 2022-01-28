@@ -10,6 +10,7 @@ const initialState = {
   clients: [],
   modeEdit: false,
   clientEdit: {},
+  alertType: "",
 };
 
 const store = createStore(reducer, initialState);

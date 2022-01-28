@@ -4,8 +4,8 @@ import Register from "../../components/Register";
 import Header from "../Header";
 import ClientsList from "../../components/ClientsList";
 import postClient from "../../services/postClient";
-import { newClient } from "../../app/actions";
-
+import { newClient, changeAlert } from "../../app/actions";
+import AlertStatus from "../../components/AlertStatus";
 /**
  *
  * @param {*} props
@@ -13,6 +13,7 @@ import { newClient } from "../../app/actions";
  */
 const Layout = (props) => {
   const dispatcher = useDispatch();
+  const alertType = useSelector((state) => state.alertType);
   const [loading, setIsloading] = useState(false);
 
   /**
@@ -28,6 +29,7 @@ const Layout = (props) => {
       } else {
         setIsloading(false);
         dispatcher(newClient({ ...res }));
+        dispatcher(changeAlert("success"));
       }
     });
   };
@@ -35,7 +37,9 @@ const Layout = (props) => {
   return (
     <>
       <Header />
+
       <Register loading={loading} onSubmitData={handleNewClientRequest} />
+      <AlertStatus type={alertType} />
       <ClientsList />
     </>
   );

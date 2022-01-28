@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import "./register.css";
 import updateClient from "../../services/updateClient";
-import deleteClient from "../../services/deleteClient";
 import {
   newClient,
   deleteClient as deleteClientAction,
@@ -22,10 +21,13 @@ const Register = ({ onSubmitData }) => {
     handleSubmit,
   } = useForm();
 
+  const cancelEdit = () => {
+    dispatcher(toggleMode(false));
+    dispatcher(editClient({}));
+  };
+
   const handleEditRequest = (data) => {
-    console.log("updating...", data);
     updateClient(data, (res) => {
-      console.log("reSSSS:", res);
       if (res.error) {
         alert(res.message);
         return;
@@ -33,6 +35,7 @@ const Register = ({ onSubmitData }) => {
 
       dispatcher(deleteClientAction(data.id));
       dispatcher(newClient(res));
+      cancelEdit();
     });
   };
 
@@ -44,11 +47,6 @@ const Register = ({ onSubmitData }) => {
     }
   };
 
-  const cancelEdit = () => {
-    dispatcher(toggleMode(false));
-    dispatcher(editClient({}));
-  };
-
   return (
     <>
       <section className="register">
@@ -56,7 +54,7 @@ const Register = ({ onSubmitData }) => {
           {modeEdit ? (
             <h2>Actualizar Cliente</h2>
           ) : (
-            <h2>Registrar Nuevo Cliente</h2>
+            <h2>Registro de nuevos clientes</h2>
           )}
           <form
             className="register_container_form"
@@ -161,9 +159,9 @@ const Register = ({ onSubmitData }) => {
                 })}
               />
             </div>
+            <br />
             {modeEdit ? (
               <>
-                <br />
                 <button onClick={cancelEdit} className="button_cancel">
                   Cancelar
                 </button>
@@ -174,7 +172,7 @@ const Register = ({ onSubmitData }) => {
               </>
             ) : (
               <button type="submit" className="button_send">
-                Generar Cliente
+                Registrar Cliente
               </button>
             )}
           </form>

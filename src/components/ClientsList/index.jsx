@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
+import ChargeClient from "../ChargeClient";
 import getClients from "../../services/getClients";
 import deleteClient from "../../services/deleteClient";
 import { getClients as getClientsAction } from "../../app/actions";
@@ -86,13 +87,7 @@ const ClientsList = () => {
                   >
                     Borrar
                   </Button>
-                  <Button
-                    variant="outlined"
-                    variant="contained"
-                    color="success"
-                  >
-                    Cargar
-                  </Button>
+                  <ChargeClient disabled clientId={row.id} />
                 </Stack>
               </TableCell>
             </TableRow>

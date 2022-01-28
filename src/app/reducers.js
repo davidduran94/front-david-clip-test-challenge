@@ -30,6 +30,12 @@ const reducer = (state, action) => {
         modeEdit: action.payload,
       };
 
+    case "CHANGE_ALERT":
+      return {
+        ...state,
+        alertType: action.payload,
+      };
+
     default:
       return state;
   }
