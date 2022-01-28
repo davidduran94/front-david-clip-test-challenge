@@ -7,6 +7,8 @@ import deleteClient from "../../services/deleteClient";
 import {
   newClient,
   deleteClient as deleteClientAction,
+  toggleMode,
+  editClient,
 } from "../../app/actions";
 
 const Register = ({ onSubmitData }) => {
@@ -42,12 +44,17 @@ const Register = ({ onSubmitData }) => {
     }
   };
 
+  const cancelEdit = () => {
+    dispatcher(toggleMode(false));
+    dispatcher(editClient({}));
+  };
+
   return (
     <>
       <section className="register">
         <section className="container">
           {modeEdit ? (
-            <h2>Editar Cliente</h2>
+            <h2>Actualizar Cliente</h2>
           ) : (
             <h2>Registrar Nuevo Cliente</h2>
           )}
@@ -155,9 +162,16 @@ const Register = ({ onSubmitData }) => {
               />
             </div>
             {modeEdit ? (
-              <button type="submit" className="button_send">
-                Actualizar Cliente
-              </button>
+              <>
+                <br />
+                <button onClick={cancelEdit} className="button_cancel">
+                  Cancelar
+                </button>
+                <br />
+                <button type="submit" className="button_send">
+                  Actualizar Cliente
+                </button>
+              </>
             ) : (
               <button type="submit" className="button_send">
                 Generar Cliente
