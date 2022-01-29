@@ -3,17 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import reducer from "./app/reducers";
-
-const initialState = {
-  clients: [],
-  modeEdit: false,
-  clientEdit: {},
-  alertType: "",
-};
-
-const store = createStore(reducer, initialState);
+import store from "./app/store";
 
 ReactDOM.render(
   <React.StrictMode>

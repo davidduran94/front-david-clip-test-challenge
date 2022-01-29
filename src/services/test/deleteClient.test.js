@@ -1,0 +1,31 @@
+import deleteClient from "../deleteClient";
+
+describe("delete client service", () => {
+  it("should call fetch and get a response", () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    );
+    fetch.mockClear();
+    const callback = jest.fn();
+    deleteClient("1", callback);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call callback and get a response", async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            message: "success",
+          }),
+      })
+    );
+    fetch.mockClear();
+    const callback = jest.fn((response) => response);
+    const response = await deleteClient("1", callback);
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(response.message).toContain("success");
+  });
+});
