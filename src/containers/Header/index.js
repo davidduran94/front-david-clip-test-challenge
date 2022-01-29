@@ -4,8 +4,8 @@ import "./header.css";
 const Header = () => {
   return (
     <div className="header">
-      <img height="20" src="./logo.svg" alt="" />
-      <h2>OpenPay</h2>
+      <img height="40" src="./logo.png" alt="" />
+      <h2></h2>
     </div>
   );
 };
